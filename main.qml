@@ -145,6 +145,9 @@ ApplicationWindow {
                    onClicked: {
                        pop.cellaSel=index
                        pop.open()
+                       pop.cellSpan= grid.lista[index]
+                       pop.x=parent.x+10
+                       pop.y=parent.y+10
                    }
                 }
              }
@@ -156,11 +159,12 @@ ApplicationWindow {
     Popup {
            id: pop
            property int  cellaSel: 0
+           property int  cellSpan: 1
            signal changeColumnSpan(int valSelezionato)
            x:(parent.width/2) - (width/2)
            y: (parent.height/2) - (height/2)
-           width: parent.width*0.80
-           height: parent.height*0.80
+           width: parent.width*0.40
+           height: parent.height*0.40
            background: Rectangle {
                    border.color: "red"
            }
@@ -176,9 +180,11 @@ ApplicationWindow {
                 ComboBox {
                    id:comboBox
                    model: ["1", "2", "3"]
+                   currentIndex: pop.cellSpan-1
                    anchors.verticalCenter: parent.verticalCenter
                    anchors.horizontalCenter: parent.horizontalCenter
                    anchors.verticalCenterOffset: -40
+
                }
                 RowLayout {
                         spacing: 20
@@ -199,7 +205,7 @@ ApplicationWindow {
                         anchors.bottom: parent.bottom ; anchors.bottomMargin: 20
                     }
            }
-           modal: true // ho l'opacità nera trasparente attorno
+           modal: false // ho l'opacità nera trasparente attorno se è true
            focus: true
            closePolicy: Popup.CloseOnEscape | Popup.CloseOnReleaseOutside  // CON CLOSE ESCAPE SE PREMO ESC SI CHIUDE
            enter: Transition {
